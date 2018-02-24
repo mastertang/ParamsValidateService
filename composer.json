@@ -1,0 +1,28 @@
+{
+  "name": "mastertang/paramsvalidatemicroservices",
+  "description": "microservice for params validate",
+  "keywords": [
+    "params validate",
+    "microservices",
+    "servies",
+    "php"
+  ],
+  "time": "2018-02-24",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "ParamsValidateMicroServices\\": "./"
+    }
+  },
+  "authors": [
+    {
+      "name": "RuiHua Tang",
+      "email": "547740900@qq.com",
+      "homepage": "https://github.com/mastertang/ParamsValidateMicroServices",
+      "role": "Programmer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  }
+}

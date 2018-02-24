@@ -1,0 +1,10 @@
+[
+  {
+    "ParamsValidateService": {
+      "name": "ParamsValidateService",
+      "describe": "获取session数据",
+      "class": "ParamsValidateMicroServices\\Services\\ParamsValidateService",
+      "method": "serviceStart"
+    }
+  }
+]

@@ -1,4 +1,5 @@
 <?php
+
 namespace ParamsValidateMicroServices\Services;
 class ParamsValidateService
 {
@@ -14,53 +15,87 @@ class ParamsValidateService
     /**
      * $config = [
      *      "paramsName" => [
-     *          "name1"=>["type"=>"int|float|double|numberic","empty"=>true,"range"=>["<:10",">=:20"],"in"=>[1,2,3,4],"!in"=>[1,2,3,4]],
-     *          "name2"=>["type"=>"string","len"=>["=:10",">:100"],"trim"=>" ","phone"=>true,"email"=>true,],
-     *          "name3"=>["type"=>"bool|boolean"],
-     *          "name4"=>["type"=>"json"],
+     *          "name1"=>["condition" => ["type"=>"int|float|double|numberic","empty"=>true,"range"=>["<:10",">=:20"],"in"=>[1,2,3,4],"!in"=>[1,2,3,4]],"tail_handle"=>function()],
+     *          "name2"=>["condition" => ["type"=>"string","len"=>["=:10",">:100"],"trim"=>" ","phone"=>true,"email"=>true,"http"=>"post"],"tail_handle"=>function()],
+     *          "name3"=>["condition" => ["type"=>"bool|boolean","http"=>"get"],"tail_handle"=>function()]],
+     *          "name4"=>["condition" => ["type"=>"json","decode"=>"array|obj"],"tail_handle"=>function()]],
      *      ],
-     *      "type"=> "post|get"
+     *      "data" => []
      * ]
      * @param $config
      * @return boolean
      */
     public function serviceStart($config)
     {
+        $return = ["pass" => true, "message" => "All pass!"];
         if (!isset($config["paramsName"]) ||
             !is_array($config["paramsName"]) ||
-            empty($config["paramsName"]) ||
-            !isset($config["type"])
+            empty($config["paramsName"])
         ) {
-            return false;
+            $return["pass"]    = false;
+            $return["message"] = "Config params can not be empty!";
+            return $return;
         }
-        $type = strtolower(trim($config["type"]));
-        if (!in_array($type, ["post", "get"])) {
-            return false;
+        $defaultData = isset($config["data"]) ? $config["data"] : [];
+        if (!is_array($defaultData)) {
+            $defaultData = [];
         }
         $paramsCondition = $config["paramsName"];
-        foreach ($paramsCondition as $paramName => $condition) {
-            $data = "";
-            if ($type == "post") {
-                $data = $_POST[$paramName];
-            } elseif ($type == "get") {
-                $data = $_GET[$paramName];
-            }
-            if (isset($condition["trim"])) {
-                $data = trim($data, $condition["trim"]);
-                unset($condition["trim"]);
-            }
-            $result = true;
-            if (is_array($condition) && !empty($condition)) {
-                foreach ($condition as $key => $value) {
-                    $result = $this->conditionHandler($key, $value, $data);
-                    if ($result === false) {
-                        return false;
-                        break;
+        $newData         = [];
+        foreach ($paramsCondition as $paramName => $subParam) {
+            if ($subParam instanceof \Closure) {
+                $result = call_user_func_array($subParam, [$paramName]);
+                if ($result === false) {
+                    $return = [
+                        "pass"    => false,
+                        "message" => "Param '{$paramName}' validate failed!"
+                    ];
+                    break;
+                }
+            } else {
+                if (isset($subParam["condition"])) {
+                    $data = "";
+                    $condition = $subParam["condition"];
+                    if (!empty($defaultData) && isset($defaultData[$paramName])) {
+                        $data = $defaultData[$paramName];
+                    } else {
+                        $type = "post";
+                        if (isset($condition["http"]) && in_array(strtolower($condition["http"]), ["post", "get"])) {
+                            $type = strtolower($condition["http"]);
+                        }
+                        if ($type == "post") {
+                            $data = $_POST[$paramName];
+                        } else {
+                            $data = $_GET[$paramName];
+                        }
+                    }
+                    if (isset($condition["trim"])) {
+                        $data = trim($data, $condition["trim"]);
+                        unset($condition["trim"]);
+                    }
+                    $newData[$paramName] = $data;
+                    if (is_array($condition) && !empty($condition)) {
+                        foreach ($condition as $key => $value) {
+                            $result = $this->conditionHandler($key, $value, $data);
+                            if ($result === false) {
+                                $return = [
+                                    "pass"    => false,
+                                    "message" => "Param '{$paramName}' error at validate '{$key}'"
+                                ];
+                                break;
+                            }
+                        }
+                    }
+                    if (isset($subParam["tail_handle"]) && $subParam["tail_handle"] instanceof \Closure) {
+                        $newData[$paramName] = call_user_func_array($subParam["tail_handle"], [$paramName, $data]);
                     }
                 }
             }
         }
-        return true;
+        if ($return["pass"]) {
+            $return["newData"] = $newData;
+        }
+        return $return;
     }
 
     /**

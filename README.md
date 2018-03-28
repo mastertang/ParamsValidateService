@@ -5,12 +5,12 @@
     [
          "paramsName" => ~参数验证配置 
          [
-             "name1"=>["type"=>"int|float|double|numberic","empty"=>true,"range"=>["<:10",">=:20"],"in"=>[1,2,3,4],"!in"=>[1,2,3,4]],
-             "name2"=>["type"=>"string","len"=>["=:10",">:100"],"trim"=>" ","phone"=>true,"email"=>true,],
-             "name3"=>["type"=>"bool|boolean"],
-             "name4"=>["type"=>"json"],
+            "name1"=>["condition" => ["type"=>"int|float|double|numberic","empty"=>true,"range"=>["<:10",">=:20"],"in"=>[1,2,3,4],"!in"=>[1,2,3,4]],"tail_handle"=>function()],
+            "name2"=>["condition" => ["type"=>"string","len"=>["=:10",">:100"],"trim"=>" ","phone"=>true,"email"=>true,"http"=>"post"],"tail_handle"=>function()],
+            "name3"=>["condition" => ["type"=>"bool|boolean","http"=>"get"],"tail_handle"=>function()]],
+            "name4"=>["condition" => ["type"=>"json","decode"=>"array|obj"],"tail_handle"=>function()]],
          ],
-         "type"=> "post|get"~指定HTTP参数传输类型
+         "data" => [] //参数值
     ]
     
     PS : 1. type  => int 整型
@@ -64,7 +64,17 @@
                 "!=" => 不等于,
                 "<>" => 不等于,      
             ],
-            检查字符串的长度范围是否服务要求                
+            检查字符串的长度范围是否服务要求 
+         10 . http => get | post 当前参数的提交方式
+         11 . tail_handle => function($paramsName,$value){
+            检验完参数后，如设置此参数，则调用当前匿名函数，传入参数名作为$paramsName,参数值为$value,
+            return的数据会自动保存，并通过当前server程序返回。返回结果
+            [
+                ......，
+                "newData" => ["参数名"=>处理后的数据],
+                ......
+            ]
+         }                   
 ```
 
 

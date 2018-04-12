@@ -3,12 +3,12 @@
 ##### 配置说明
 ```
     [
-         "paramsName" => ~参数验证配置 
+         "params" => ~参数验证配置 
          [
-            "name1"=>["condition" => ["type"=>"int|float|double|numberic","empty"=>true,"range"=>["<:10",">=:20"],"in"=>[1,2,3,4],"!in"=>[1,2,3,4]],"tail_handle"=>function()],
-            "name2"=>["condition" => ["type"=>"string","len"=>["=:10",">:100"],"trim"=>" ","phone"=>true,"email"=>true,"http"=>"post"],"tail_handle"=>function()],
-            "name3"=>["condition" => ["type"=>"bool|boolean","http"=>"get"],"tail_handle"=>function()]],
-            "name4"=>["condition" => ["type"=>"json","decode"=>"array|obj"],"tail_handle"=>function()]],
+            "name1"=>["c" => ["type"=>"int|float|double|numberic","empty"=>true,"range"=>["<:10",">=:20"],"in"=>[1,2,3,4],"!in"=>[1,2,3,4]],"t"=>function()],
+            "name2"=>["c" => ["type"=>"string","len"=>["=:10",">:100"],"trim"=>" ","phone"=>true,"email"=>true,"http"=>"post"],"t"=>function()],
+            "name3"=>["c" => ["type"=>"bool|boolean","http"=>"get"],"t"=>function()]],
+            "name4"=>["c" => ["type"=>"json","decode"=>"array|obj"],"t"=>function()]],
          ],
          "data" => [] //参数值
     ]

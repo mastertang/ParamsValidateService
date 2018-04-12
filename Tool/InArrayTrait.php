@@ -1,4 +1,5 @@
 <?php
+
 namespace ParamsValidateMicroServices\Services;
 trait InArrayTrait
 {

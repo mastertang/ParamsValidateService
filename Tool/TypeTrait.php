@@ -1,11 +1,13 @@
 <?php
+
 namespace ParamsValidateMicroServices\Services;
 trait TypeTrait
 {
+
     public function typeHandler($condition)
     {
         $condition = strtolower(trim($condition, " "));
-        $result = true;
+        $result    = true;
         switch ($condition) {
             case "int":
                 $result = is_int($condition);

@@ -1,4 +1,5 @@
 <?php
+
 namespace ParamsValidateMicroServices\Services;
 class PhoneClassify
 {
@@ -54,8 +55,8 @@ class PhoneClassify
     public static function is_China_Phone($phone)
     {
         $resultPRC = self::is_PRC_Phone($phone);
-        $resultHK = self::is_HK_Phone($phone);
-        $resultAM = self::is_AM_Phone($phone);
+        $resultHK  = self::is_HK_Phone($phone);
+        $resultAM  = self::is_AM_Phone($phone);
         return ($resultPRC || $resultHK || $resultAM);
     }
 

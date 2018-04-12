@@ -1,4 +1,5 @@
 <?php
+
 namespace ParamsValidateMicroServices\Services;
 trait PhoneTrait
 {
@@ -14,7 +15,7 @@ trait PhoneTrait
             $condition = [$condition];
         }
         foreach ($condition as $subCondition) {
-            $result = false;
+            $result       = false;
             $subCondition = strtoupper(trim($subCondition, " "));
             switch ($subCondition) {
                 case "PRC":
@@ -47,7 +48,7 @@ trait PhoneTrait
                 default:
                     break;
             }
-            if($result){
+            if ($result) {
                 return true;
             }
         }

@@ -1,4 +1,5 @@
 <?php
+
 namespace ParamsValidateMicroServices\Services;
 trait LengthTrait
 {
@@ -10,7 +11,7 @@ trait LengthTrait
         if (!is_array($condition) || empty($condition) || !is_string($data)) {
             return false;
         }
-        $data = strlen($data);
+        $data   = strlen($data);
         $result = true;
         foreach ($condition as $co => $limits) {
             if (!is_array($limits)) {

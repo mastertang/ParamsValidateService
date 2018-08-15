@@ -7,20 +7,31 @@ use ParamsValidateMicroServices\tool\Validate;
 
 class PValService extends Common
 {
-    public $errMessage = '';
-    public $exception  = null;
-    public $originData = [];
-    public $handleData = [];
-    public $headerData = [];
+    public $errMessage   = '';
+    public $exception    = null;
+    public $originData   = [];
+    public $handleData   = [];
+    public $headerData   = [];
+    public $globalMethod = '';
 
-    //开始处理数据
+    /*
+     * 构造函数
+     */
+    public function __construct($globalMethod = '')
+    {
+        $this->globalMethod = $globalMethod;
+    }
+
+    /*
+     * 构造函数
+     */
     public function serviceStart($instances)
     {
         $result = true;
         foreach ($instances as $instance) {
             if ($instance instanceof Validate) {
                 try {
-                    $result = $instance->validateStart();
+                    $result = $instance->validateStart($this->globalMethod);
                     if (!is_null($instance->getHandleBase64Header())) {
                         $this->headerData[$instance->getName()] = $instance->getHandleBase64Header();
                     }

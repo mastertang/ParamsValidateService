@@ -4,15 +4,16 @@ namespace ParamsValidateMicroServices\tool;
 
 class Validate extends ValidateBase
 {
+    
     /*
      * 开始验证参数
      */
-    public function validateStart()
+    public function validateStart($httpMethod)
     {
         if (empty($this->name)) {
             throw new \Exception("参数名不能为空！");
         }
-        $this->achieveParams();
+        $this->achieveParams($httpMethod);
         //判断是否为空
         if ($this->empty === true) {
             if (is_null($this->data) || $this->data === '') {

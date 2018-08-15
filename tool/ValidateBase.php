@@ -53,24 +53,28 @@ class ValidateBase
     /*
      * 获取base64header
      */
-    public function getHandleBase64Header(){
+    public function getHandleBase64Header()
+    {
         return $this->base64Header;
     }
 
     /*
      * 获取参数名字
      */
-    public function getName(){
+    public function getName()
+    {
         return $this->name;
     }
 
     /*
      * 处理字符串中的一些特殊字符
      */
-    public function trimString($needle){
+    public function trimString($needle)
+    {
         $this->trim = $needle;
         return $this;
     }
+
     /*
      * 是否截取base64数据的头部
      */
@@ -231,7 +235,8 @@ class ValidateBase
     /*
      * 请求方法
      */
-    public function method($method){
+    public function method($method)
+    {
         $this->method = strtoupper($method);
         return $this;
     }
@@ -239,8 +244,11 @@ class ValidateBase
     /*
      * 获取参数值
      */
-    public function achieveParams()
+    public function achieveParams($httpMethod)
     {
+        if (!empty($httpMethod) && in_array(strtoupper($httpMethod), ['GET', 'POST'])) {
+            $this->method = strtoupper($httpMethod);
+        }
         switch ($this->method) {
             case "GET":
                 if (isset($_GET[$this->name])) {

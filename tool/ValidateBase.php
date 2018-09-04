@@ -42,7 +42,9 @@ class ValidateBase
     //是否要进行urlDecode
     protected $urlDecode = false;
     //是否要base64decode
-    protected $base64Decode = false;
+    protected $base64DecodeBefore = false;
+    //是否要base64decode
+    protected $base64DecodeBehind = false;
     //截取base64数据头部
     protected $spiltBase64Header = false;
     //预先处理
@@ -105,9 +107,18 @@ class ValidateBase
     /*
      * base64解码
      */
-    public function base64Decode()
+    public function base64DecodeBefore()
     {
-        $this->base64Decode = true;
+        $this->base64DecodeBefore = true;
+        return $this;
+    }
+
+    /*
+ * base64解码
+ */
+    public function base64DecodeBehind()
+    {
+        $this->base64DecodeBehind = true;
         return $this;
     }
 

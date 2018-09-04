@@ -4,7 +4,6 @@ namespace ParamsValidateMicroServices\tool;
 
 class Validate extends ValidateBase
 {
-    
     /*
      * 开始验证参数
      */
@@ -42,6 +41,10 @@ class Validate extends ValidateBase
         //判断类型
         if (!empty($this->type)) {
             $this->paramsTypeCheck();
+        }
+        //解码base64
+        if ($this->base64DecodeBefore === true) {
+            $this->decodeBase64();
         }
         //判断长度
         if (!empty($this->length)) {
@@ -87,7 +90,7 @@ class Validate extends ValidateBase
             $this->getBase64Header();
         }
         //解码base64
-        if ($this->base64Decode === true) {
+        if ($this->base64DecodeBehind === true) {
             $this->decodeBase64();
         }
         //是否要解析json
@@ -120,7 +123,7 @@ class Validate extends ValidateBase
         $index = strpos($this->handleData, ',');
         if ($index !== false) {
             $this->base64Header = substr($this->handleData, 0, $index);
-            $this->handleData   = substr($this->handleData, $index+1);
+            $this->handleData   = substr($this->handleData, $index + 1);
         }
     }
 

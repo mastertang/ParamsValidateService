@@ -47,4 +47,34 @@ class PValService extends Common
         }
         return $result;
     }
+
+    /*
+     * 创建固定验证
+     */
+    public static function stringValidate($name, $empty = false)
+    {
+        $validate = new Validate();
+        $validate->name($name);
+        $validate->type(Common::T_STRING);
+        $validate->length('>', 0);
+        if ($empty) {
+            $validate->isEmpty();
+        }
+        return $validate;
+    }
+
+    /*
+     * 创建固定数字验证
+     */
+    public static function digitValidate($name, $empty = false)
+    {
+        $validate = new Validate();
+        $validate->name($name);
+        $validate->type(Common::T_INT);
+        $validate->range('>', 0);
+        if ($empty) {
+            $validate->isEmpty();
+        }
+        return $validate;
+    }
 }

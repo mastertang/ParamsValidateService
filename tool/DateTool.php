@@ -4,6 +4,33 @@ namespace ParamsValidateMicroServices\tool;
 
 class DateTool
 {
+    //判断是否是星期六
+    public static function isSaturday($date)
+    {
+        if (date('w', strtotime($date)) === '6') {
+            return true;
+        }
+        return false;
+    }
+
+    //判断是否是星期日
+    public static function isSunday($date)
+    {
+        if (date('w', strtotime($date)) === '0') {
+            return true;
+        }
+        return false;
+    }
+
+    //判断是否是周末
+    public static function isWeekend($date)
+    {
+        if (self::isSaturday($date) || self::isSaturday($date)) {
+            return true;
+        }
+        return false;
+    }
+    
     //获取今天结束时间戳
     public static function getTodayEndStamp()
     {

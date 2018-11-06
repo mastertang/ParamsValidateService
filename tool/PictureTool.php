@@ -67,7 +67,7 @@ class PictureTool
         &$height = '',
         &$type = '',
         &$attr = '',
-        &$bits = '',$cutWidth <= 0 || $cutHeight <= 0 || $cutX >= $imageWidth || $cutY >= $imageHeight
+        &$bits = '',
         &$channels = '',
         &$mime = ''
     )
@@ -84,7 +84,10 @@ class PictureTool
                 return false;
             }
         }
-        list($width, $height, $type, $attr, $bits, $channels, $mime) = $imageInfo;
+        list($width, $height, $type, $attr) = $imageInfo;
+        $bits     = $imageInfo['bits'];
+        $channels = $imageInfo['channels'];
+        $mime     = $imageInfo['mime'];
         return $imageInfo;
     }
 
@@ -259,6 +262,7 @@ class PictureTool
             $typeList = array_values(self::$gdPictureIndexList);
             $saveType = strtoupper($saveType);
             if (in_array($saveType, $typeList)) {
+                $savePath   = str_replace('.' . $saveSuffix, '.' . strtolower($saveType), $savePath);
                 $saveSuffix = $saveType;
             }
         }
@@ -313,7 +317,7 @@ class PictureTool
             $newImageResource, $imageResource,
             0, 0, $cutX, $cutY,
             $cutWidth, $cutHeight,
-            $imageWidth, $imageHeight
+            $cutWidth, $cutHeight
         );
         imagedestroy($imageResource);
         if (!$result) {

@@ -56,11 +56,10 @@ class FileTool
         }
         $newFileDir = dirname($newFilePath);
         if (!is_dir($newFileDir)) {
-            return false;
-        }
-        $mkResult = mkdir($newFileDir, 0775, true);
-        if ($mkResult === false) {
-            return false;
+            $mkResult = mkdir($newFileDir, 0775, true);
+            if ($mkResult === false) {
+                return false;
+            }
         }
         return rename($oldFilePath, $newFilePath);
     }
@@ -68,12 +67,16 @@ class FileTool
     /*
      * 复制文件
      */
-    public static function copyFile($filePath, $newFileDir)
+    public static function copyFile($filePath, $newFileDir, $newName = '')
     {
         if (!is_file($filePath)) {
             return false;
         }
-        $fileName = basename($filePath);
+        if (is_string($newName) && !empty($newName)) {
+            $fileName = $newName;
+        } else {
+            $fileName = basename($filePath);
+        }
         if (!is_dir($newFileDir)) {
             $mkdirResult = mkdir($newFileDir, 0775, true);
             if ($mkdirResult === false) {

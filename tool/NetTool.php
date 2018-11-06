@@ -9,9 +9,24 @@ class NetTool
      */
     public static function urlAddVersion($url, $paramsName = 'v')
     {
-        return $url . '?' . $paramsName . '=' . uniqid();
+        $questionPositon = strpos($url, '?');
+        if ($questionPositon === false) {
+            return $url . '?' . $paramsName . '=' . uniqid();
+        } else {
+            $urlHead = substr($url, 0, $questionPositon);
+            $urlTail = substr($url, $questionPositon + 1);
+            if (empty($urlTail)) {
+                return $urlHead . '?' . $paramsName . '=' . uniqid();
+            } else {
+                if (strpos($urlTail, "&{$paramsName}=") === false && strpos($urlTail, "{$paramsName}=") === false) {
+                    return $urlHead . '?' . $paramsName . '=' . uniqid() . '&' . $urlTail;
+                } else {
+                    return $urlHead . '?' . uniqid() . '=' . uniqid() . '&' . $urlTail;
+                }
+            }
+        }
     }
-    
+
     //获取客户端ip地址
     public static function getClientIpAddress()
     {

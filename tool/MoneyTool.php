@@ -55,9 +55,38 @@ class MoneyTool
     /*
      * 更改数字的格式
      */
-    public static function changeNumberFormat($number, $length = 0, $thousandsSep = ',', $decPoint = '.')
+    public static function changeNumberFormat($number, $length = 0, $thousandsSep = ',', $decPoint = '.', $pad = false)
     {
+        $number         = '' . $number;
+        $pointPostition = strpos($number, '.');
+        if ($pointPostition === false) {
+            $number = (int)$number;
+            if(!$pad){
+                $length = 0;
+            }
+        } else {
+            $tail = substr($number, $pointPostition + 1);
+            $head = substr($number, 0, $pointPostition);
+            if ($length === 0) {
+                $number = (int)$head;
+                if(!$pad){
+                    $length = 0;
+                }
+            } else {
+                if($pad){
+                    if($length > strlen($tail)){
+                        str_pad($tail,$length - strlen($tail),"0");
+                    }
+                }else {
+                    if ($length > strlen($tail)) {
+                        $length = strlen($tail);
+                    }
+                }
+                $tail   = substr($tail, 0, $length);
+                $number = (float)("{$head}.{$tail}");
+            }
+        }
         return number_format($number, $length, $decPoint, $thousandsSep);
     }
-    
+
 }

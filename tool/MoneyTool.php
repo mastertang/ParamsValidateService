@@ -9,7 +9,7 @@ class MoneyTool
      */
     public static function yuanToJiao($yuan)
     {
-        return round($yuan * 10, 1);
+        return number_format($yuan * 10, 1, '.', '');
     }
 
     /*
@@ -25,7 +25,7 @@ class MoneyTool
      */
     public static function jiaoToYuan($jiao)
     {
-        return round($jiao / 10, 2);
+        return number_format($jiao / 10, 2, '.', '');
     }
 
     /*
@@ -41,7 +41,7 @@ class MoneyTool
      */
     public static function fenToYuan($fen)
     {
-        return round($fen / 100, 2);
+        return number_format($fen / 100, 2, '.', '');
     }
 
     /*
@@ -49,6 +49,15 @@ class MoneyTool
      */
     public static function fenToJiao($fen)
     {
-        return round($fen / 10, 1);
+        return number_format($fen / 10, 1, '.', '');
     }
+
+    /*
+     * 更改数字的格式
+     */
+    public static function changeNumberFormat($number, $length = 0, $thousandsSep = ',', $decPoint = '.')
+    {
+        return number_format($number, $length, $decPoint, $thousandsSep);
+    }
+    
 }

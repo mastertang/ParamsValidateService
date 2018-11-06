@@ -30,19 +30,17 @@ class DateTool
         }
         return false;
     }
-    
+
     //获取今天结束时间戳
     public static function getTodayEndStamp()
     {
-        $ymd = date('Y-m-d ', time());
-        return strtotime($ymd . '24:00:00');
+        return strtotime('24:00:00');
     }
 
     //获取今天开始时间戳
     public static function getTodayStartStamp()
     {
-        $ymd = date('Y-m-d ', time());
-        return strtotime($ymd . '00:00:00');
+        return strtotime('00:00:00');
     }
 
     //获取今天结束日期

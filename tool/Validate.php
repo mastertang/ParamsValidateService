@@ -50,8 +50,14 @@ class Validate extends ValidateBase
         if (!empty($this->length)) {
             $this->lengthCheck();
         }
+        //url解码数据
         if ($this->urlDecode === true) {
-            $this->handleData = urldecode($this->handleData);
+            $decodeUrl = urldecode($this->handleData);
+            if ($this->urlDecodeHandle instanceof \Closure) {
+                call_user_func_array($this->urlDecodeHandle, [$decodeUrl]);
+            } else {
+                $this->handleData = $decodeUrl;
+            }
         }
         //判断值范围
         if (!empty($this->range)) {
@@ -95,9 +101,20 @@ class Validate extends ValidateBase
         }
         //是否要解析json
         if ($this->jsonDecode === true) {
-            $this->handleData = json_decode($this->handleData, true);
-            if ($this->handleData === false || $this->handleData == null) {
+            $jsonData = json_decode($this->handleData, true);
+            if ($jsonData === false || $jsonData == null) {
                 throw new \Exception($this->name . " not a correct json string!");
+            }
+            if ($this->decodeJsonHandle instanceof \Closure) {
+                call_user_func_array($this->decodeJsonHandle, [$jsonData]);
+            } else {
+                $this->handleData = $jsonData;
+            }
+        }
+        //文件保存处理
+        if ($this->saveFileData === true) {
+            if ($this->saveFileHandle instanceof \Closure) {
+                call_user_func_array($this->saveFileHandle, $this->handleData);
             }
         }
         //后置处理
@@ -123,7 +140,11 @@ class Validate extends ValidateBase
         $index = strpos($this->handleData, ',');
         if ($index !== false) {
             $this->base64Header = substr($this->handleData, 0, $index);
-            $this->handleData   = substr($this->handleData, $index + 1);
+            if ($this->spiltBase64HeaderHandle instanceof \Closure) {
+                call_user_func_array($this->spiltBase64HeaderHandle, [$this->base64Header]);
+            } else {
+                $this->handleData = substr($this->handleData, $index + 1);
+            }
         }
     }
 
@@ -132,7 +153,12 @@ class Validate extends ValidateBase
      */
     protected function decodeBase64()
     {
-        $this->handleData = base64_decode($this->handleData);
+        $decodeData = base64_decode($this->handleData);
+        if ($this->base64DecodeHandle instanceof \Closure) {
+            call_user_func_array($this->base64DecodeHandle, [$decodeData]);
+        } else {
+            $this->handleData = $decodeData;
+        }
         if ($this->handleData === false) {
             throw new \Exception($this->name . " decode base64 falied!");
         }

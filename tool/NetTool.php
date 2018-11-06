@@ -4,6 +4,14 @@ namespace ParamsValidateMicroServices\tool;
 
 class NetTool
 {
+    /*
+     * 为地址添加版本号
+     */
+    public static function urlAddVersion($url, $paramsName = 'v')
+    {
+        return $url . '?' . $paramsName . '=' . uniqid();
+    }
+    
     //获取客户端ip地址
     public static function getClientIpAddress()
     {
@@ -141,6 +149,7 @@ class NetTool
             } else if (strpos($_SERVER['HTTP_USER_AGENT'], 'Android')) {
                 return "Android";
             }
+            return false;
         } else {
             return strpos($_SERVER["HTTP_USER_AGENT"], $type) ? true : false;
         }

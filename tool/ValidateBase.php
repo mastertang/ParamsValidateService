@@ -37,20 +37,52 @@ class ValidateBase
     protected $defaultData = null;
     //不在值数组内
     protected $notInArray = false;
+
     //decode Json 字符串
     protected $jsonDecode = false;
+    //解json字符串处理
+    protected $decodeJsonHandle = null;
+
     //是否要进行urlDecode
     protected $urlDecode = false;
+    //url解码后数据处理
+    protected $urlDecodeHandle = null;
+
     //是否要base64decode
     protected $base64DecodeBefore = false;
     //是否要base64decode
     protected $base64DecodeBehind = false;
+    //处理decode后的数据
+    protected $base64DecodeHandle = null;
     //截取base64数据头部
     protected $spiltBase64Header = false;
+    //截取头部处理
+    protected $spiltBase64HeaderHandle = null;
+
     //预先处理
     protected $offensiveHandle = null;
     //验证后处理
     protected $defensiveHandle = null;
+
+    //处理分隔符字符串
+    protected $spiltString = false;
+    //分隔符
+    protected $spiltNeedle = '';
+    //分隔后数据处理
+    protected $spiltStringHandle = null;
+
+    //保存文件数据
+    protected $saveFileData = false;
+    //保存文件处理函数
+    protected $saveFileHandle = null;
+
+    /*
+     * 解码json字符串
+     */
+    public function decodeJson()
+    {
+        return json_decode($this->handleData, true);
+    }
 
     /*
      * 获取base64header
@@ -58,6 +90,26 @@ class ValidateBase
     public function getHandleBase64Header()
     {
         return $this->base64Header;
+    }
+
+    //是否保存文件数据
+    public function isSaveFile($saveHandle = null)
+    {
+        if ($saveHandle instanceof \Closure) {
+            $this->saveFileData = true;
+        }
+        return $this;
+    }
+
+    //是否处理分隔字符串
+    public function isSpiltString($needle = '', $spiltHandle = null)
+    {
+        $this->spiltNeedle = $needle;
+        $this->spiltString = true;
+        if ($spiltHandle instanceof \Closure) {
+            $this->spiltStringHandle = $spiltHandle;
+        }
+        return $this;
     }
 
     /*
@@ -80,8 +132,11 @@ class ValidateBase
     /*
      * 是否截取base64数据的头部
      */
-    public function base64Header()
+    public function base64Header($headerHandle = null)
     {
+        if ($headerHandle instanceof \Closure) {
+            $this->spiltBase64HeaderHandle = $headerHandle;
+        }
         $this->spiltBase64Header = true;
         return $this;
     }
@@ -107,17 +162,23 @@ class ValidateBase
     /*
      * base64解码
      */
-    public function base64DecodeBefore()
+    public function base64DecodeBefore($decodeHandle = null)
     {
         $this->base64DecodeBefore = true;
+        if ($decodeHandle instanceof \Closure) {
+            $this->base64DecodeHandle = $decodeHandle;
+        }
         return $this;
     }
 
     /*
  * base64解码
  */
-    public function base64DecodeBehind()
+    public function base64DecodeBehind($decodeHandle = null)
     {
+        if ($decodeHandle instanceof \Closure) {
+            $this->base64DecodeHandle = $decodeHandle;
+        }
         $this->base64DecodeBehind = true;
         return $this;
     }
@@ -201,17 +262,23 @@ class ValidateBase
     /*
      * 是否要进行urldecode
      */
-    public function urlDecode()
+    public function urlDecode($urlHandle = null)
     {
         $this->urlDecode = true;
+        if ($urlHandle instanceof \Closure) {
+            $this->urlDecodeHandle = $urlHandle;
+        }
         return $this;
     }
 
     /*
      * 是否要用jsonDecode
      */
-    public function jsonDecode()
+    public function jsonDecode($jsonHandle = null)
     {
+        if ($jsonHandle instanceof \Closure) {
+            $this->decodeJsonHandle = $jsonHandle;
+        }
         $this->jsonDecode = true;
         return $this;
     }

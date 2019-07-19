@@ -2,9 +2,18 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class StringTool
+ * @package ParamsValidateMicroServices\tool
+ */
 class StringTool
 {
-    //生成随机数
+    /**
+     * 生成随机数
+     *
+     * @param int $length
+     * @return string
+     */
     public static function createNonceString($length = 16)
     {
         $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -15,8 +24,11 @@ class StringTool
         return $nonce;
     }
 
-    /*
+    /**
      * 创建纯数字字符串
+     *
+     * @param int $length
+     * @return string
      */
     public static function createFigureString($length = 16)
     {
@@ -28,8 +40,11 @@ class StringTool
         return $nonce;
     }
 
-    /*
+    /**
      * 创建纯字母字符串
+     *
+     * @param int $length
+     * @return string
      */
     public static function createLetterString($length = 16)
     {
@@ -41,32 +56,44 @@ class StringTool
         return $nonce;
     }
 
-    /*
+    /**
      * 创建大写字母字符串
+     *
+     * @param int $length
+     * @return string
      */
     public static function upperLetterString($length = 16)
     {
         return strtoupper(self::createLetterString($length));
     }
 
-    /*
+    /**
      * 创建小写字母字符串
+     *
+     * @param int $length
+     * @return string
      */
     public static function lowerLetterString($length = 16)
     {
         return strtolower(self::createLetterString($length));
     }
 
-    /*
+    /**
      * 创建大写字符串
+     *
+     * @param int $length
+     * @return string
      */
     public static function upperString($length = 16)
     {
         return strtoupper(self::createNonceString($length));
     }
 
-    /*
+    /**
      * 创建小写字符串
+     *
+     * @param int $length
+     * @return string
      */
     public static function lowerString($length = 16)
     {

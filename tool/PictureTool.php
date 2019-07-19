@@ -2,9 +2,15 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class PictureTool
+ * @package ParamsValidateMicroServices\tool
+ */
 class PictureTool
 {
-    //gd库图片索引列表
+    /**
+     * @var array gd库图片索引列表
+     */
     public static $gdPictureIndexList = [
         1  => 'GIF',
         2  => 'JPEG',
@@ -30,7 +36,12 @@ class PictureTool
         23 => 'JPG'
     ];
 
-    //从base64头获取图片后缀
+    /**
+     * 从base64头获取图片后缀
+     *
+     * @param $base64String
+     * @return bool|string
+     */
     public static function getPicSuffixFromBase64String($base64String)
     {
         $startPosition = strpos($base64String, 'data:image/') + 11;
@@ -54,13 +65,30 @@ class PictureTool
         }
     }
 
-    //去除base64数据的头信息
+    /**
+     * 去除base64数据的头信息
+     *
+     * @param $base64String
+     * @return bool|string
+     */
     public static function reduceBase64StringHead($base64String)
     {
         return substr($base64String, strpos($base64String, ',') + 1);
     }
 
-    //使用gd库获取图片内容
+    /**
+     * 使用gd库获取图片内容
+     *
+     * @param $picturePath
+     * @param string $width
+     * @param string $height
+     * @param string $type
+     * @param string $attr
+     * @param string $bits
+     * @param string $channels
+     * @param string $mime
+     * @return array|bool
+     */
     public static function getPictureInfoByGd(
         $picturePath,
         &$width = '',
@@ -91,7 +119,12 @@ class PictureTool
         return $imageInfo;
     }
 
-    //根据图片类型索引获取图片后缀类型
+    /**
+     * 根据图片类型索引获取图片后缀类型
+     *
+     * @param $typeIndex
+     * @return bool|string
+     */
     public static function getGDPictureType($typeIndex)
     {
         if (!isset(self::$gdPictureIndexList[$typeIndex])) {
@@ -100,8 +133,17 @@ class PictureTool
         return strtolower(self::$gdPictureIndexList[$typeIndex]);
     }
 
-    //根据图片类型获取图片资源
-    public static function getGDPictureResource($picturePath, $typeIndex)
+    /**
+     * 根据图片类型获取图片资源
+     *
+     * @param $picturePath
+     * @param $typeIndex
+     * @return bool|resource
+     */
+    public static function getGDPictureResource(
+        $picturePath,
+        $typeIndex
+    )
     {
         if (empty($picturePath)) {
             return false;
@@ -147,7 +189,12 @@ class PictureTool
         return $imageResource;
     }
 
-    //根据路径获取图片的类型
+    /**
+     * 根据路径获取图片的类型
+     *
+     * @param $filePath
+     * @return bool|string
+     */
     public static function getPictureTypeByPath($filePath)
     {
         $suffix = FileTool::getFileSuffixByPath($filePath);
@@ -157,8 +204,21 @@ class PictureTool
         return $suffix;
     }
 
-    //使用gd保存图片
-    public static function saveGDPicture($typeIndex, $filePath, $resource, $quality)
+    /**
+     * 使用gd保存图片
+     *
+     * @param $typeIndex
+     * @param $filePath
+     * @param $resource
+     * @param $quality
+     * @return bool
+     */
+    public static function saveGDPicture(
+        $typeIndex,
+        $filePath,
+        $resource,
+        $quality
+    )
     {
         $typeIndex = strtoupper($typeIndex);
         $result    = false;
@@ -204,7 +264,19 @@ class PictureTool
         return $result;
     }
 
-    //修改图片尺寸
+    /**
+     * 修改图片尺寸
+     *
+     * @param $picturePath
+     * @param $savePath
+     * @param null $reWidth
+     * @param null $reHeight
+     * @param null $ratio
+     * @param int $quality
+     * @param null $saveType
+     * @param bool $deleteOld
+     * @return bool
+     */
     public static function resizeImage(
         $picturePath,
         $savePath,
@@ -273,7 +345,20 @@ class PictureTool
         return $result;
     }
 
-    //裁剪图片
+    /**
+     * 裁剪图片
+     *
+     * @param $picturePath
+     * @param $savePath
+     * @param $cutWidth
+     * @param $cutHeight
+     * @param $cutX
+     * @param $cutY
+     * @param int $quality
+     * @param null $saveType
+     * @param bool $deleteOld
+     * @return bool
+     */
     public static function cutImage(
         $picturePath,
         $savePath,

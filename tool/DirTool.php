@@ -2,6 +2,10 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class DirTool
+ * @package ParamsValidateMicroServices\tool
+ */
 class DirTool
 {
     const CLASSIFY_INT    = 1;
@@ -9,7 +13,13 @@ class DirTool
     const OS_LINUS        = 'linux';
     const OS_WIN          = 'win';
 
-    //清理路径字符串
+    /**
+     * 清理路径字符串
+     *
+     * @param $path
+     * @param string $os
+     * @return null|string|string[]
+     */
     public static function dirClean($path, $os = self::OS_LINUS)
     {
         $path = trim($path, ' ');
@@ -31,7 +41,13 @@ class DirTool
         return $path;
     }
 
-    //创建文件夹
+    /**
+     * 创建文件夹
+     *
+     * @param $path
+     * @param int $mode
+     * @return bool
+     */
     public static function dirCreate($path, $mode = 0775)
     {
         $name = basename($path);
@@ -44,8 +60,13 @@ class DirTool
         return true;
     }
 
-    /*
+    /**
      * 路径分级
+     *
+     * @param $path
+     * @param $classify
+     * @param int $type
+     * @return bool|string
      */
     public static function classifyDir($path, $classify, $type = self::CLASSIFY_STRING)
     {
@@ -68,8 +89,12 @@ class DirTool
         return $result === false ? false : $path;
     }
 
-    /*
+    /**
      * 复制文件夹及文件夹下内容
+     *
+     * @param $oldDir
+     * @param $newDir
+     * @return bool
      */
     public static function copyDir($oldDir, $newDir)
     {
@@ -83,8 +108,12 @@ class DirTool
         return $result;
     }
 
-    /*
+    /**
      * 重命名文件夹
+     *
+     * @param $oldDir
+     * @param $newDir
+     * @return bool
      */
     public static function renameDir($oldDir, $newDir)
     {
@@ -101,8 +130,11 @@ class DirTool
         return self::deleteDir($oldDir);
     }
 
-    /*
+    /**
      * 删除文件夹及文件下的内容
+     *
+     * @param $dirPath
+     * @return bool
      */
     public static function deleteDir($dirPath)
     {
@@ -116,8 +148,11 @@ class DirTool
         return rmdir($dirPath);
     }
 
-    /*
+    /**
      * 删除文件夹及文件夹下内容的递归函数
+     *
+     * @param $dirPath
+     * @return bool
      */
     public static function deleteDirSubFunc($dirPath)
     {
@@ -145,8 +180,12 @@ class DirTool
         return true;
     }
 
-    /*
+    /**
      * 复制文件夹及文件夹下内容的递归函数
+     *
+     * @param $dirPath
+     * @param $newDir
+     * @return bool
      */
     public static function copyDirSubFunc($dirPath, $newDir)
     {

@@ -1,10 +1,16 @@
 <?php
 
 namespace ParamsValidateMicroServices\tool;
+
+/**
+ * Class PhoneClassify
+ * @package ParamsValidateMicroServices\tool
+ */
 class PhoneClassify
 {
     /**
      * 检查是否是大陆的电话号码
+     *
      * @param $phone
      * @return bool|int
      */
@@ -16,6 +22,7 @@ class PhoneClassify
 
     /**
      * 检查是否是台湾的电话号码
+     *
      * @param $phone
      * @return int
      */
@@ -27,6 +34,7 @@ class PhoneClassify
 
     /**
      * 检查是否是香港的电话号码
+     *
      * @param $phone
      * @return int
      */
@@ -38,6 +46,7 @@ class PhoneClassify
 
     /**
      * 检查是否是澳门的电话号码
+     *
      * @param $phone
      * @return int
      */
@@ -49,6 +58,7 @@ class PhoneClassify
 
     /**
      * 检查是否是中国的电话
+     *
      * @param $phone
      * @return bool
      */
@@ -62,6 +72,7 @@ class PhoneClassify
 
     /**
      * 所有手机号码都可以
+     *
      * @param $phone
      * @return bool
      */
@@ -75,6 +86,7 @@ class PhoneClassify
 
     /**
      * 检查是否是中国移动的电话号码
+     *
      * @param $phone
      * @return bool
      */
@@ -86,6 +98,7 @@ class PhoneClassify
 
     /**
      * 检查是否是中国联通的电话号码
+     *
      * @param $phone
      * @return bool
      */
@@ -97,6 +110,7 @@ class PhoneClassify
 
     /**
      * 检查是否是移动的电话号码
+     *
      * @param $phone
      * @return bool
      */
@@ -108,6 +122,7 @@ class PhoneClassify
 
     /**
      * Pattern验证统一函数
+     *
      * @param $pattern
      * @param $phone
      * @return int

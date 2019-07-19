@@ -2,10 +2,19 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class Validate
+ * @package ParamsValidateMicroServices\tool
+ */
 class Validate extends ValidateBase
 {
-    /*
+
+    /**
      * 开始验证参数
+     *
+     * @param $httpMethod
+     * @return bool
+     * @throws \Exception
      */
     public function validateStart($httpMethod)
     {
@@ -124,7 +133,7 @@ class Validate extends ValidateBase
         return true;
     }
 
-    /*
+    /**
      * 处理字符串中的一些特殊字符
      */
     protected function trimChar()
@@ -132,8 +141,9 @@ class Validate extends ValidateBase
         $this->handleData = trim($this->handleData, $this->trim);
     }
 
-    /*
+    /**
      * 获取base64Header
+     *
      */
     protected function getBase64Header()
     {
@@ -148,8 +158,10 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * 解码base64
+     *
+     * @throws \Exception
      */
     protected function decodeBase64()
     {
@@ -164,8 +176,10 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * 检测是否是否手机格式
+     *
+     * @throws \Exception
      */
     public function isPhoneString()
     {
@@ -215,24 +229,30 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * 获取原始数据
+     *
+     * @return null
      */
     public function getOriginData()
     {
         return $this->data;
     }
 
-    /*
+    /**
      * 获取处理后的数据
+     *
+     * @return null
      */
     public function getHandleData()
     {
         return $this->handleData;
     }
 
-    /*
+    /**
      * 检测在值数组中
+     *
+     * @throws \Exception
      */
     protected function inValueArray()
     {
@@ -241,8 +261,10 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * 检测不在在值数组中
+     *
+     * @throws \Exception
      */
     protected function notInValueArray()
     {
@@ -251,8 +273,10 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * url格式检测
+     *
+     * @throws \Exception
      */
     protected function isUrlString()
     {
@@ -261,8 +285,10 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * 邮箱格式检测
+     *
+     * @throws \Exception
      */
     protected function isEmailString()
     {
@@ -271,8 +297,10 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * ip地址格式检测
+     *
+     * @throws \Exception
      */
     protected function isIpString()
     {
@@ -282,8 +310,10 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * 长度检测
+     *
+     * @throws \Exception
      */
     protected function lengthCheck()
     {
@@ -334,8 +364,10 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * 检测数值访问
+     *
+     * @throws \Exception
      */
     protected function rangeCheck()
     {
@@ -385,8 +417,11 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * 类型检测
+     *
+     * @return float|int
+     * @throws \Exception
      */
     protected function paramsTypeCheck()
     {
@@ -435,8 +470,11 @@ class Validate extends ValidateBase
         }
     }
 
-    /*
+    /**
      * 字符串转数组
+     *
+     * @param $value
+     * @return float|int
      */
     protected function stringToNumeric($value)
     {

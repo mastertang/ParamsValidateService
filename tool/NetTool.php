@@ -2,10 +2,18 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class NetTool
+ * @package ParamsValidateMicroServices\tool
+ */
 class NetTool
 {
-    /*
+    /**
      * 为地址添加版本号
+     *
+     * @param $url
+     * @param string $paramsName
+     * @return string
      */
     public static function urlAddVersion($url, $paramsName = 'v')
     {
@@ -27,7 +35,11 @@ class NetTool
         }
     }
 
-    //获取客户端ip地址
+    /**
+     * 获取客户端ip地址
+     *
+     * @return bool
+     */
     public static function getClientIpAddress()
     {
         if (getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown')) {
@@ -43,7 +55,17 @@ class NetTool
         return $res;
     }
 
-    //curl请求
+    /**
+     * curl请求
+     *
+     * @param $host
+     * @param $method
+     * @param $querys
+     * @param $body
+     * @param $headers
+     * @param int $timeOut
+     * @return bool|mixed
+     */
     public static function curlRequest($host, $method, $querys, $body, $headers, $timeOut = 20)
     {
         $url  = self::urlAppend($host, $querys);
@@ -75,10 +97,16 @@ class NetTool
         }
     }
 
-    //地址添加Get参数
+    /**
+     * 地址添加Get参数
+     *
+     * @param $url
+     * @param $data
+     * @return string
+     */
     public static function urlAppend($url, $data)
     {
-        if (!is_array($data)) {
+        if (!is_array($data) || empty($data)) {
             return $url;
         }
         $query = urldecode(http_build_query($data));
@@ -86,7 +114,12 @@ class NetTool
         return $url;
     }
 
-    //地址由http转为https
+    /**
+     * 地址由http转为https
+     *
+     * @param $url
+     * @return string
+     */
     public static function httpToHttps($url)
     {
         $url = ltrim($url, ' ');
@@ -96,7 +129,12 @@ class NetTool
         return $url;
     }
 
-    //地址由https转为http
+    /**
+     * 地址由https转为http
+     *
+     * @param $url
+     * @return string
+     */
     public static function httpsToHttp($url)
     {
         $url = ltrim($url, ' ');
@@ -106,7 +144,12 @@ class NetTool
         return $url;
     }
 
-    //获取当前域名地址，GGI模式
+    /**
+     * 获取当前域名地址，GGI模式
+     *
+     * @param string $entrancePath
+     * @return bool|string
+     */
     public static function getDomainAddress($entrancePath = '')
     {
         if (isset($_SERVER['REQUEST_SCHEME'], $_SERVER['HTTP_HOST'], $_SERVER['SCRIPT_NAME'])) {
@@ -137,7 +180,12 @@ class NetTool
     const IPAD           = 'iPad';
     const ANDROID        = 'Android';
 
-    //检查浏览器类型
+    /**
+     * 检查浏览器类型
+     *
+     * @param int $type
+     * @return bool|string
+     */
     public static function clientCheck($type = self::BROWSER_NORMAL)
     {
         if ($type == self::BROWSER_NORMAL) {
@@ -167,6 +215,43 @@ class NetTool
             return false;
         } else {
             return strpos($_SERVER["HTTP_USER_AGENT"], $type) ? true : false;
+        }
+    }
+
+    /**
+     * 获取用户客户agent
+     *
+     * @return string
+     */
+    public static function getUserAgent()
+    {
+        return empty($_SERVER["HTTP_USER_AGENT"]) ? '' : $_SERVER["HTTP_USER_AGENT"];
+    }
+
+    /**
+     * 获取头信息参数
+     *
+     * @param null $key
+     * @return array|false
+     */
+    public static function getHttpHeader($key = null)
+    {
+        $heads = [];
+        if (function_exists('getallheaders')) {
+            $heads = getallheaders();
+        } else {
+            $heads = $_SERVER;
+        }
+        if (empty($key)) {
+            return $heads;
+        }
+        foreach ($heads as $name => $value) {
+            if (substr($name, 0, 5) == 'HTTP_') {
+                $headName = ucfirst(strtolower(substr($name, 5)));
+                if ($headName == $key) {
+                    return $value;
+                }
+            }
         }
     }
 }

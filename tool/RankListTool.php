@@ -2,12 +2,31 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class RankListTool
+ * @package ParamsValidateMicroServices\tool
+ */
 class RankListTool
 {
-    /*
+    /**
      * 获取我的位置
+     *
+     * @param $scoreTable
+     * @param $pkey
+     * @param $sqlQuery
+     * @param $countFieldName
+     * @param array $fields
+     * @param array $orders
+     * @return bool|mixed
      */
-    public static function getMyPosition($scoreTable, $pkey, $sqlQuery, $countFieldName, $fields = [], $orders = [])
+    public static function getMyPosition(
+        $scoreTable,
+        $pkey,
+        $sqlQuery,
+        $countFieldName,
+        $fields = [],
+        $orders = []
+    )
     {
         if (!($sqlQuery instanceof \Closure) || empty($countFieldName) || empty($scoreTable) || empty($pkey) || !is_array($pkey) || !is_string($scoreTable)) {
             return false;
@@ -64,10 +83,21 @@ class RankListTool
         return $myInfo;
     }
 
-    /*
+    /**
      * 获取当场分数的排位
+     *
+     * @param $nowScore
+     * @param $table
+     * @param $totalRank
+     * @param $sqlQuery
+     * @return bool|int|mixed
      */
-    public static function getRealPosition($nowScore, $table, $totalRank, $sqlQuery)
+    public static function getRealPosition(
+        $nowScore,
+        $table,
+        $totalRank,
+        $sqlQuery
+    )
     {
         if (!($sqlQuery instanceof \Closure) || !is_array($nowScore) || empty($nowScore) || !isset($nowScore[0], $nowScore[1]) || empty($table)) {
             return false;

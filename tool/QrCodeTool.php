@@ -5,15 +5,26 @@ namespace ParamsValidateMicroServices\tool;
 use PHPQRCode\Constants;
 use PHPQRCode\QRcode;
 
+/**
+ * Class QrCodeTool
+ * @package ParamsValidateMicroServices\tool
+ */
 class QrCodeTool
 {
+    /**
+     * @param $content
+     * @param $path
+     * @param int $size
+     * @param int $padding
+     * @return bool
+     */
     public static function createNormalQrCode($content, $path, $size = 3, $padding = 2)
     {
         $baseName = basename($path);
         if (strpos($baseName, '.') === false || empty($baseName)) {
             return false;
         }
-        if(DirTool::dirCreate(dirname($path),0775) === false){
+        if (DirTool::dirCreate(dirname($path), 0775) === false) {
             return false;
         }
         $result = QRcode::png($content, $path, Constants::QR_ECLEVEL_Q, $size, $padding);

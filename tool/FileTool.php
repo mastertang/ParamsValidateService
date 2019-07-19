@@ -2,10 +2,17 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class FileTool
+ * @package ParamsValidateMicroServices\tool
+ */
 class FileTool
 {
-    /*
+    /**
      * 根据路径获取文件的后缀
+     *
+     * @param $filePath
+     * @return bool|string
      */
     public static function getFileSuffixByPath($filePath)
     {
@@ -17,8 +24,15 @@ class FileTool
         return substr($baseName, $index + 1);
     }
 
-    /*
+    /**
      * 上传文，与thinkphp框架结合使用
+     *
+     * @param $dirPath
+     * @param $fileParamName
+     * @param string $fileName
+     * @param string $suffix
+     * @param string $message
+     * @return bool|string
      */
     public static function uploadFile($dirPath, $fileParamName, $fileName = '', $suffix = '', &$message = '')
     {
@@ -46,8 +60,12 @@ class FileTool
         return !$info ? false : $fileName;
     }
 
-    /*
+    /**
      * 移动文件
+     *
+     * @param $oldFilePath
+     * @param $newFilePath
+     * @return bool
      */
     public static function moveFile($oldFilePath, $newFilePath)
     {
@@ -64,8 +82,13 @@ class FileTool
         return rename($oldFilePath, $newFilePath);
     }
 
-    /*
+    /**
      * 复制文件
+     *
+     * @param $filePath
+     * @param $newFileDir
+     * @param string $newName
+     * @return bool
      */
     public static function copyFile($filePath, $newFileDir, $newName = '')
     {
@@ -86,8 +109,11 @@ class FileTool
         return copy($filePath, "{$newFileDir}/{$fileName}");
     }
 
-    /*
+    /**
      * 文件路径
+     *
+     * @param $filePaths
+     * @return bool
      */
     public static function deleteFiles($filePaths)
     {
@@ -104,4 +130,31 @@ class FileTool
         return true;
     }
 
+    /**
+     * 修改文件名字
+     *
+     * @param $filePath
+     * @param $newName
+     * @param bool $suffix
+     * @return string
+     */
+    public static function changeFileName($filePath, $newName, $suffix = true)
+    {
+        $oldName = basename($filePath);
+        $dir     = substr($filePath, 0, strrpos($filePath,$oldName));
+        if ($dir{strlen($dir) - 1} != DS) {
+            $dir .= DS;
+        }
+        if ($suffix) {
+            $lastPosition = strrpos($oldName, '.');
+            if ($lastPosition !== false) {
+                $oldSuffix = substr($oldName, $lastPosition);
+            } else {
+                $oldSuffix = '';
+            }
+            return $dir . $newName . $oldSuffix;
+        } else {
+            return $dir . $newName;
+        }
+    }
 }

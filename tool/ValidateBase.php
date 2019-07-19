@@ -1,98 +1,126 @@
 <?php
 
 namespace ParamsValidateMicroServices\tool;
+
+/**
+ * Class ValidateBase
+ * @package ParamsValidateMicroServices\tool
+ */
 class ValidateBase
 {
-    //ip判定
+    /**
+     * 请求方法post
+     */
+    const REQUEST_POST = 'POST';
+
+    /**
+     * 请求方法get
+     */
+    const REQUEST_GET = 'GET';
+
+    /**
+     * 请求方法json
+     */
+    const REQUEST_RAW_JSON = 'RAW_JSON';
+
+    /**
+     * 请求头信息
+     */
+    const REQUEST_HEADER = 'HEADER';
+
+    // ip判定
     protected $ip = false;
-    //网络地址
+    // 网络地址
     protected $url = false;
-    //参数名称
+    // 参数名称
     protected $name = '';
-    //参数数据
+    // 参数数据
     protected $data = null;
-    //处理数据
+    // 处理数据
     protected $handleData = null;
-    //base64数据头部
+    // base64数据头部
     protected $base64Header = null;
-    //类型
+    // 类型
     protected $type = '';
-    //处理字符串中的一些特殊字符
+    // 处理字符串中的一些特殊字符
     protected $trim = false;
-    //值范围
+    // 值范围
     protected $range = false;
-    //是否空
+    // 是否空
     protected $empty = false;
-    //邮箱判定
+    // 邮箱判定
     protected $email = false;
-    //电话判定
+    // 电话判定
     protected $phone = false;
-    //长度
+    // 长度
     protected $length = false;
-    //方法类型
-    protected $method = 'POST';
-    //在值数组内
+    // 方法类型
+    protected $method = '';
+    // 在值数组内
     protected $inArray = false;
-    //默认值
+    // 默认值
     protected $defaultData = null;
-    //不在值数组内
+    // 不在值数组内
     protected $notInArray = false;
-
-    //decode Json 字符串
+    // decode Json 字符串
     protected $jsonDecode = false;
-    //解json字符串处理
+    // 解json字符串处理
     protected $decodeJsonHandle = null;
-
-    //是否要进行urlDecode
+    // 是否要进行urlDecode
     protected $urlDecode = false;
-    //url解码后数据处理
+    // url解码后数据处理
     protected $urlDecodeHandle = null;
-
-    //是否要base64decode
+    // 是否要base64decode
     protected $base64DecodeBefore = false;
-    //是否要base64decode
+    // 是否要base64decode
     protected $base64DecodeBehind = false;
-    //处理decode后的数据
+    // 处理decode后的数据
     protected $base64DecodeHandle = null;
-    //截取base64数据头部
+    // 截取base64数据头部
     protected $spiltBase64Header = false;
-    //截取头部处理
+    // 截取头部处理
     protected $spiltBase64HeaderHandle = null;
-
-    //预先处理
+    // 预先处理
     protected $offensiveHandle = null;
-    //验证后处理
+    // 验证后处理
     protected $defensiveHandle = null;
-
-    //处理分隔符字符串
+    // 处理分隔符字符串
     protected $spiltString = false;
-    //分隔符
+    // 分隔符
     protected $spiltNeedle = '';
-    //分隔后数据处理
+    // 分隔后数据处理
     protected $spiltStringHandle = null;
-
-    //保存文件数据
+    // 保存文件数据
     protected $saveFileData = false;
-    //保存文件处理函数
+    // 保存文件处理函数
     protected $saveFileHandle = null;
 
-    /*
+    /**
      * 解码json字符串
+     *
+     * @return mixed
      */
     public function decodeJson()
     {
         return json_decode($this->handleData, true);
     }
 
-    /*
+    /**
      * 获取base64header
+     *
+     * @return null
      */
     public function getHandleBase64Header()
     {
         return $this->base64Header;
     }
 
-    //是否保存文件数据
+    /**
+     * 是否保存文件数据
+     *
+     * @param null $saveHandle
+     * @return $this
+     */
     public function isSaveFile($saveHandle = null)
     {
         if ($saveHandle instanceof \Closure) {
@@ -101,7 +129,13 @@ class ValidateBase
         return $this;
     }
 
-    //是否处理分隔字符串
+    /**
+     * 是否处理分隔字符串
+     *
+     * @param string $needle
+     * @param null $spiltHandle
+     * @return $this
+     */
     public function isSpiltString($needle = '', $spiltHandle = null)
     {
         $this->spiltNeedle = $needle;
@@ -112,16 +146,21 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 获取参数名字
+     *
+     * @return string
      */
     public function getName()
     {
         return $this->name;
     }
 
-    /*
+    /**
      * 处理字符串中的一些特殊字符
+     *
+     * @param $needle
+     * @return $this
      */
     public function trimString($needle)
     {
@@ -129,8 +168,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 是否截取base64数据的头部
+     *
+     * @param null $headerHandle
+     * @return $this
      */
     public function base64Header($headerHandle = null)
     {
@@ -141,8 +183,14 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 长度限制
+     *
+     * @param $loperator
+     * @param $lvalue
+     * @param string $roperator
+     * @param string $rvalue
+     * @return $this
      */
     public function length($loperator, $lvalue, $roperator = '', $rvalue = '')
     {
@@ -159,8 +207,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * base64解码
+     *
+     * @param null $decodeHandle
+     * @return $this
      */
     public function base64DecodeBefore($decodeHandle = null)
     {
@@ -171,9 +222,12 @@ class ValidateBase
         return $this;
     }
 
-    /*
- * base64解码
- */
+    /**
+     * base64解码
+     *
+     * @param null $decodeHandle
+     * @return $this
+     */
     public function base64DecodeBehind($decodeHandle = null)
     {
         if ($decodeHandle instanceof \Closure) {
@@ -183,8 +237,14 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 值访问限制
+     *
+     * @param $loperator
+     * @param $lvalue
+     * @param string $roperator
+     * @param string $rvalue
+     * @return $this
      */
     public function range($loperator, $lvalue, $roperator = '', $rvalue = '')
     {
@@ -201,8 +261,10 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 检测url
+     *
+     * @return $this
      */
     public function urlCheck()
     {
@@ -210,8 +272,10 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 是否可以为空
+     *
+     * @return $this
      */
     public function isEmpty()
     {
@@ -219,8 +283,10 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 检测邮箱格式
+     *
+     * @return $this
      */
     public function emailCheck()
     {
@@ -228,8 +294,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 默认值
+     *
+     * @param $value
+     * @return $this
      */
     public function defaultData($value)
     {
@@ -237,8 +306,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 是否在数组中
+     *
+     * @param $array
+     * @return $this
      */
     public function inArray($array)
     {
@@ -248,8 +320,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 是否不在数组中
+     *
+     * @param $array
+     * @return $this\
      */
     public function notInArray($array)
     {
@@ -259,8 +334,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 是否要进行urldecode
+     *
+     * @param null $urlHandle
+     * @return $this
      */
     public function urlDecode($urlHandle = null)
     {
@@ -271,8 +349,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 是否要用jsonDecode
+     *
+     * @param null $jsonHandle
+     * @return $this
      */
     public function jsonDecode($jsonHandle = null)
     {
@@ -283,8 +364,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 检测手机格式
+     *
+     * @param $phoneArea
+     * @return $this
      */
     public function phoneCheck($phoneArea)
     {
@@ -292,8 +376,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 设置参数名字
+     *
+     * @param $name
+     * @return $this
      */
     public function name($name)
     {
@@ -301,8 +388,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 设置类型
+     *
+     * @param $type
+     * @return $this
      */
     public function type($type)
     {
@@ -310,8 +400,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 请求方法
+     *
+     * @param $method
+     * @return $this
      */
     public function method($method)
     {
@@ -319,21 +412,43 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 获取参数值
+     *
+     * @param $httpMethod
      */
     public function achieveParams($httpMethod)
     {
-        if (!empty($httpMethod) && in_array(strtoupper($httpMethod), ['GET', 'POST'])) {
-            $this->method = strtoupper($httpMethod);
+        $methodDefaultList = [
+            self::REQUEST_POST,
+            self::REQUEST_GET,
+            self::REQUEST_RAW_JSON,
+            self::REQUEST_HEADER
+        ];
+        if (empty($this->method) || !in_array($this->method, $methodDefaultList)) {
+            if (!empty($httpMethod) && in_array(strtoupper($httpMethod), $methodDefaultList)) {
+                $this->method = strtoupper($httpMethod);
+            }
         }
         switch ($this->method) {
-            case "GET":
+            case self::REQUEST_GET:
                 if (isset($_GET[$this->name])) {
                     $this->data = $_GET[$this->name];
                 }
                 break;
-            case "POST":
+            case self::REQUEST_RAW_JSON:
+                $raw = json_decode(file_get_contents("php://input"), true);
+                if (is_array($raw) && isset($raw[$this->name])) {
+                    $this->data = $raw[$this->name];
+                }
+                break;
+            case self::REQUEST_HEADER:
+                $headerMsg = NetTool::getHttpHeader($this->name);
+                if ($headerMsg !== false) {
+                    $this->data = $headerMsg;
+                }
+                break;
+            case self::REQUEST_POST:
             default:
                 if (isset($_POST[$this->name])) {
                     $this->data = $_POST[$this->name];
@@ -342,8 +457,11 @@ class ValidateBase
         }
     }
 
-    /*
+    /**
      * 设置data先置处理
+     *
+     * @param $handle
+     * @return $this
      */
     public function offensiveHandle($handle)
     {
@@ -353,8 +471,11 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 设置data后置处理
+     *
+     * @param $handle
+     * @return $this
      */
     public function defensiveHandle($handle)
     {
@@ -364,8 +485,10 @@ class ValidateBase
         return $this;
     }
 
-    /*
+    /**
      * 判断ip
+     *
+     * @return $this
      */
     public function ipCheck()
     {

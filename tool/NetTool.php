@@ -36,6 +36,48 @@ class NetTool
     }
 
     /**
+     * 移除地址上的参数
+     *
+     * @param $url
+     * @return mixed
+     */
+    public static function removeUrlParams($url)
+    {
+        $questionIndex = strpos($url, '?');
+        if ($questionIndex === false) {
+            return $url;
+        } else {
+            return substr($url, 0, $questionIndex);
+        }
+    }
+
+    /**
+     * @param $url
+     */
+    public static function getUrlParams($url)
+    {
+        $questionIndex = strpos($url, '?');
+        if ($questionIndex === false) {
+            return [];
+        } else {
+            $params       = [];
+            $paramsString = substr($url, $questionIndex + 1);
+            if (empty($paramsString)) {
+                return [];
+            }
+            $paramsString = explode('&', $paramsString);
+            foreach ($paramsString as $row) {
+                list($key, $value) = explode('=', $row);
+                if ($value === null) {
+                    $value = '';
+                }
+                $params[$key] = $value;
+            }
+            return $params;
+        }
+    }
+
+    /**
      * 获取客户端ip地址
      *
      * @return bool
@@ -237,21 +279,68 @@ class NetTool
     public static function getHttpHeader($key = null)
     {
         $heads = [];
+        $type  = 1;
         if (function_exists('getallheaders')) {
             $heads = getallheaders();
         } else {
             $heads = $_SERVER;
+            $type  = 2;
         }
         if (empty($key)) {
             return $heads;
         }
-        foreach ($heads as $name => $value) {
-            if (substr($name, 0, 5) == 'HTTP_') {
-                $headName = ucfirst(strtolower(substr($name, 5)));
+        if ($type == 1) {
+            $key = strtoupper($key);
+            foreach ($heads as $name => $value) {
+                $headName = strtoupper($name);
                 if ($headName == $key) {
                     return $value;
                 }
             }
+        } else if ($type == 2) {
+            $key = strtoupper(str_replace('-', '_', $key));
+            foreach ($heads as $name => $value) {
+                if (substr($name, 0, 5) == 'HTTP_') {
+                    $headName = strtoupper(substr($name, 5));
+                    if ($headName == $key) {
+                        return $value;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param $filePath
+     * @param $fileName
+     * @return bool
+     */
+    public static function clientDownloadFile($filePath, $fileName)
+    {
+        if (!is_file($filePath)) {
+            return false;
+        }
+        $filename = $fileurl;
+        $file     = fopen($filePath, "rb");
+        try {
+            header("Content-type:application/octet-stream");
+            header("Accept-Ranges:bytes");
+            header('Content-Length:' . filesize($filePath));
+            header("Content-Disposition:  attachment;  filename={$fileName}");
+            $contents = "";
+            while (!feof($file)) {
+                echo fread($file, 8192);
+            }
+            fclose($file);
+        } catch (\Exception $exception) {
+            fclose($file);
+            return false;
+        } catch (\Error $error) {
+            fclose($file);
+            return false;
         }
     }
 }

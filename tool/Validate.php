@@ -152,9 +152,8 @@ class Validate extends ValidateBase
             $this->base64Header = substr($this->handleData, 0, $index);
             if ($this->spiltBase64HeaderHandle instanceof \Closure) {
                 call_user_func_array($this->spiltBase64HeaderHandle, [$this->base64Header]);
-            } else {
-                $this->handleData = substr($this->handleData, $index + 1);
             }
+            $this->handleData = substr($this->handleData, $index + 1);
         }
     }
 

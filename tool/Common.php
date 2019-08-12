@@ -2,6 +2,10 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class Common
+ * @package ParamsValidateMicroServices\tool
+ */
 class Common
 {
     // Type 类型

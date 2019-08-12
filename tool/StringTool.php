@@ -99,6 +99,4 @@ class StringTool
     {
         return strtolower(self::createNonceString($length));
     }
-    
-    
 }

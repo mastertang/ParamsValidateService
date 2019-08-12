@@ -2,10 +2,14 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class CsvTool
+ * @package ParamsValidateMicroServices\tool
+ */
 class CsvTool
 {
     /**
-     * 创建csv
+     * 创建csv文件
      *
      * @param $path
      * @param $title
@@ -32,16 +36,28 @@ class CsvTool
      * @param $path
      * @return bool
      */
-    public static function readCsv($path)
+    public static function readCsv($path, $page = null, $limit = null)
     {
         $file = fopen($path, 'r');
         if ($file === false) {
             return false;
         }
         $list = [];
-        while ($data = fgetcsv($file)) {
-            $list[] = $data;
+        if (is_numeric($page) && is_numeric($limit) && $page >= 1 && $limit >= 1) {
+            $offset = ($page - 1) * $limit;
+            $index  = 0;
+            while ($data = fgetcsv($file)) {
+                if ($index >= $offset) {
+                    $list[] = $data;
+                }
+                $index++;
+            }
+        } else {
+            while ($data = fgetcsv($file)) {
+                $list[] = $data;
+            }
         }
-        return fclose($file);
+        fclose($file);
+        return $list;
     }
 }

@@ -33,5 +33,4 @@ class QrCodeTool
         }
         return true;
     }
-
 }

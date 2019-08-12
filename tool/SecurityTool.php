@@ -9,7 +9,7 @@ namespace ParamsValidateMicroServices\tool;
 class SecurityTool
 {
     /**
-     * 验证签名模式1
+     * 验证签名模式
      *
      * @param $data
      * @param null $clientSignature
@@ -42,5 +42,4 @@ class SecurityTool
         }
         return $packageString == $clientSignature;
     }
-
 }

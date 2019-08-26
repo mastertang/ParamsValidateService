@@ -94,6 +94,32 @@ class ValidateBase
     protected $saveFileData = false;
     // 保存文件处理函数
     protected $saveFileHandle = null;
+    // 检查是否中文姓名
+    protected $chineseName = false;
+    // 检查是否是身份证号
+    protected $idcode = false;
+
+    /**
+     * 检查是否是中文姓名
+     *
+     * @return $this
+     */
+    public function checkChineseName()
+    {
+        $this->chineseName = true;
+        return $this;
+    }
+
+    /**
+     * 检查是否是身份证号
+     *
+     * @return $this
+     */
+    public function checkIdcode()
+    {
+        $this->idcode = true;
+        return $this;
+    }
 
     /**
      * 解码json字符串

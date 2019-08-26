@@ -99,4 +99,29 @@ class StringTool
     {
         return strtolower(self::createNonceString($length));
     }
+
+    /**
+     * 是否全是中文
+     *
+     * @param $string
+     * @return bool
+     */
+    public static function isAllChinese($string)
+    {
+        return preg_match('/^[\x7f-\xff]+$/', $string) ? true : false;
+    }
+
+    /**
+     * 是否为中国人名字
+     * 
+     * @param $string
+     * @return bool
+     */
+    public static function isChineseName($string)
+    {
+        if (strpos($string, '·')) {
+            $string = str_replace("·", '', $string);
+        }
+        return preg_match('/^[\x7f-\xff]+$/', $string) ? true : false;
+    }
 }

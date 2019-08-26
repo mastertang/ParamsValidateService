@@ -8,6 +8,42 @@ namespace ParamsValidateMicroServices\tool;
  */
 class NetTool
 {
+
+    const BROWSER_NORMAL = 0x01;
+
+    // IE浏览器
+    const IE = 'MSIE';
+
+    // IE浏览器
+    const FIRE_FOX = 'Firefox';
+
+    // IE浏览器
+    const GOOGLE_CHROME = 'Chrome';
+
+    // IE浏览器
+    const SAFARI = 'Safari';
+
+    // IE浏览器
+    const OPERA = 'Opera';
+
+    // 微信
+    const WECHAT = 'MicroMessenger';
+
+    // 微博
+    const WEIBO = 'Weibo';
+
+    // 支付宝
+    const ALIPAY = 'AlipayClient';
+
+    // IPHONE浏览器
+    const IPHONE = 'iPhone';
+
+    // IPAD浏览器
+    const IPAD = 'iPad';
+
+    // 安卓浏览器
+    const ANDROID = 'Android';
+
     /**
      * 为地址添加版本号
      *
@@ -52,7 +88,9 @@ class NetTool
     }
 
     /**
+     * 获取连接上的参数
      * @param $url
+     * @return array
      */
     public static function getUrlParams($url)
     {
@@ -209,19 +247,6 @@ class NetTool
         return false;
     }
 
-    const BROWSER_NORMAL = 0x01;
-    const IE             = 'MSIE';
-    const FIRE_FOX       = 'Firefox';
-    const GOOGLE_CHROME  = 'Chrome';
-    const SAFARI         = 'Safari';
-    const OPERA          = 'Opera';
-    const WECHAT         = 'MicroMessenger';
-    const WEIBO          = 'Weibo';
-    const ALIPAY         = 'AlipayClient';
-    const IPHONE         = 'iPhone';
-    const IPAD           = 'iPad';
-    const ANDROID        = 'Android';
-
     /**
      * 检查浏览器类型
      *
@@ -323,8 +348,7 @@ class NetTool
         if (!is_file($filePath)) {
             return false;
         }
-        $filename = $fileurl;
-        $file     = fopen($filePath, "rb");
+        $file = fopen($filePath, "rb");
         try {
             header("Content-type:application/octet-stream");
             header("Accept-Ranges:bytes");

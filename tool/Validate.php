@@ -100,6 +100,14 @@ class Validate extends ValidateBase
         if (!empty($this->phone)) {
             $this->isPhoneString();
         }
+        //检测中文姓名
+        if ($this->chineseName === true) {
+            $this->isChineseName();
+        }
+        //检测中文姓名
+        if ($this->idcode === true) {
+            $this->isIdcode();
+        }
         //截取base64数据的头部
         if ($this->spiltBase64Header === true) {
             $this->getBase64Header();
@@ -134,6 +142,30 @@ class Validate extends ValidateBase
     }
 
     /**
+     * 检查是否是中文姓名
+     *
+     * @throws \Exception
+     */
+    protected function isChineseName()
+    {
+        if (!StringTool::isChineseName($this->handleData)) {
+            throw new \Exception($this->name . " Not a chinese name!");
+        }
+    }
+
+    /**
+     * 检查是否是标准的身份证号
+     *
+     * @throws \Exception
+     */
+    protected function isIdcode()
+    {
+        if (!IdcodeTool::checkIdcode($this->handleData)) {
+            throw new \Exception($this->name . " Not a correct idcode!");
+        }
+    }
+
+    /**
      * 处理字符串中的一些特殊字符
      */
     protected function trimChar()
@@ -143,7 +175,6 @@ class Validate extends ValidateBase
 
     /**
      * 获取base64Header
-     *
      */
     protected function getBase64Header()
     {

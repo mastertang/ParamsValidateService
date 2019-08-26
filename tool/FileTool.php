@@ -8,10 +8,17 @@ namespace ParamsValidateMicroServices\tool;
  */
 class FileTool
 {
-    const FILESIZE_KB = 0x1; // 获取文件kb大小
-    const FILESIZE_MB = 0x2; // 获取文件mb大小
-    const FILESIZE_GB = 0x3; // 获取文件gb大小
-    const FILESIZE_TB = 0x4; // 获取文件tb大小
+    // 获取文件kb大小
+    const FILESIZE_KB = 0x1;
+
+    // 获取文件mb大小
+    const FILESIZE_MB = 0x2;
+
+    // 获取文件gb大小
+    const FILESIZE_GB = 0x3;
+
+    // 获取文件tb大小
+    const FILESIZE_TB = 0x4;
 
     /**
      * 修改文件后缀

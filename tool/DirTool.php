@@ -8,10 +8,17 @@ namespace ParamsValidateMicroServices\tool;
  */
 class DirTool
 {
-    const CLASSIFY_INT    = 1;
+    // 数字类型
+    const CLASSIFY_INT = 1;
+
+    // 字符串类型
     const CLASSIFY_STRING = 2;
-    const OS_LINUS        = 'linux';
-    const OS_WIN          = 'win';
+
+    // linux系统
+    const OS_LINUS = 'linux';
+
+    // window系统
+    const OS_WIN = 'win';
 
     /**
      * 清理路径字符串
@@ -192,7 +199,7 @@ class DirTool
         $dirHandle = opendir($dirPath);
         while ($file = readdir($dirHandle)) {
             if ($file != "." && $file != "..") {
-                $fullPath    = $oldDir . "/" . $file;
+                $fullPath    = $dirPath . "/" . $file;
                 $newFullPath = $newDir . "/" . $file;
                 if (!is_dir($fullPath)) {
                     $result = FileTool::copyFile($fullPath, $newFullPath);

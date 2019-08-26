@@ -2,6 +2,10 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class MoneyTool
+ * @package ParamsValidateMicroServices\tool
+ */
 class MoneyTool
 {
     /**

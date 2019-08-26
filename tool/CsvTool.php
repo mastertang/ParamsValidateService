@@ -34,7 +34,9 @@ class CsvTool
      * 读取csv文件
      *
      * @param $path
-     * @return bool
+     * @param null $page
+     * @param null $limit
+     * @return array|bool
      */
     public static function readCsv($path, $page = null, $limit = null)
     {

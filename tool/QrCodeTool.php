@@ -10,7 +10,10 @@ use Endroid\QrCode\QrCode;
  */
 class QrCodeTool
 {
+
     /**
+     * 创建二维码
+     *
      * @param $content
      * @param $path
      * @param int $size
@@ -20,7 +23,7 @@ class QrCodeTool
      * @param string $logoPath
      * @param string $logoSize
      * @param bool $roundBlockSize
-     * @throws \Endroid\QrCode\Exception\InvalidPathException
+     * @return mixed
      */
     public static function createQrCode(
         $content,

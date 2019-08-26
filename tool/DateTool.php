@@ -2,6 +2,10 @@
 
 namespace ParamsValidateMicroServices\tool;
 
+/**
+ * Class DateTool
+ * @package ParamsValidateMicroServices\tool
+ */
 class DateTool
 {
     /**
@@ -58,6 +62,7 @@ class DateTool
      *
      * @param $date 格式
      * @param $toBit 转换位数，如果bit小于10就直接返回原数据
+     * @return string
      */
     public static function timeBitTransform($date, $toBit)
     {

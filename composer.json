@@ -24,7 +24,6 @@
   ],
   "require": {
     "php": ">=5.3.0",
-    "endroid/qr-code": "^3.0@dev",
     "mastertang/encryption": "v2.1.2"
   }
 }

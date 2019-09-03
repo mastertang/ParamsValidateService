@@ -5,4 +5,10 @@
       暂无，正在忙碌中
 ```
 
+    "endroid/qr-code": "^3.0@dev",
+    "phpmailer/phpmailer": "dev-master",
+    "paragonie/easydb": "v1.7.0",
+    
+
+
 

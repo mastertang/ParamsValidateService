@@ -124,4 +124,28 @@ class StringTool
         }
         return preg_match('/^[\x7f-\xff]+$/', $string) ? true : false;
     }
+
+    /**
+     * 检测是否是邮箱格式
+     *
+     * @param $email
+     * @return bool
+     */
+    public static function isEmailAddress($email)
+    {
+        $mode = '/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/';
+        return preg_match($mode, $email) ? true : false;
+    }
+
+    /**
+     * 检测是否ip地址
+     *
+     * @param $ip
+     * @return bool
+     */
+    public static function isIpAddress($ip)
+    {
+        return filter_var($ip, FILTER_VALIDATE_IP) ? true : false;
+
+    }
 }

@@ -146,6 +146,5 @@ class StringTool
     public static function isIpAddress($ip)
     {
         return filter_var($ip, FILTER_VALIDATE_IP) ? true : false;
-
     }
 }

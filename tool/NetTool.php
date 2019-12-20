@@ -146,7 +146,7 @@ class NetTool
      * @param int $timeOut
      * @return bool|mixed
      */
-    public static function curlRequest($host, $method, $querys, $body, $headers, $timeOut = 20)
+    public static function curlRequest($host, $method= "POST", $querys = [], $body = [], $headers = [], $timeOut = 5)
     {
         $url  = self::urlAppend($host, $querys);
         $curl = curl_init();

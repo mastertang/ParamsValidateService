@@ -126,23 +126,19 @@ class FileTool
      * @param string $newName
      * @return bool
      */
-    public static function copyFile($filePath, $newFileDir, $newName = '')
+    public static function copyFile($filePath, $newFilePath)
     {
         if (!is_file($filePath)) {
             return false;
         }
-        if (is_string($newName) && !empty($newName)) {
-            $fileName = $newName;
-        } else {
-            $fileName = basename($filePath);
-        }
+        $newFileDir = dirname($newFilePath);
         if (!is_dir($newFileDir)) {
-            $mkdirResult = mkdir($newFileDir, 0775, true);
-            if ($mkdirResult === false) {
+            $mkResult = mkdir($newFileDir, 0775, true);
+            if ($mkResult === false) {
                 return false;
             }
         }
-        return copy($filePath, "{$newFileDir}/{$fileName}");
+        return copy($filePath, $newFilePath);
     }
 
     /**

@@ -9,6 +9,24 @@ namespace ParamsValidateMicroServices\tool;
 class DateTool
 {
     /**
+     * 获取实时日期
+     * 
+     * @param bool $milli
+     * @return false|string
+     */
+    public static function getCurrectDate($milli = false)
+    {
+        $nowStamp = self::getMillisecond();
+        $second = substr($nowStamp,0,10);
+        $milli = substr($nowStamp,10);
+        $date = date("Y-m-d H:i:s",$second);
+        if($milli){
+            $date .= ".{$milli}";
+        }
+        return $date;
+    }
+
+    /**
      * 分离日期和毫秒
      *
      * @param $date

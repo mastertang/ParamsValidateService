@@ -98,6 +98,32 @@ class ValidateBase
     protected $chineseName = false;
     // 检查是否是身份证号
     protected $idcode = false;
+    // 是否addslashes过滤sql注入
+    protected $addslashes = false;
+    // 是否html过滤xss劫持
+    protected $htmlspecialchars = false;
+
+    /**
+     * 是否检测html劫持
+     *
+     * @return $this
+     */
+    public function checkHtmlInjection()
+    {
+        $this->htmlspecialchars = true;
+        return $this;
+    }
+
+    /**
+     * 是否检测sql注入
+     *
+     * @return $this
+     */
+    public function checkSqlInjection()
+    {
+        $this->addslashes = true;
+        return $this;
+    }
 
     /**
      * 检查是否是中文姓名

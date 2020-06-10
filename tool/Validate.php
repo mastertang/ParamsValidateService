@@ -8,7 +8,6 @@ namespace ParamsValidateMicroServices\tool;
  */
 class Validate extends ValidateBase
 {
-
     /**
      * 开始验证参数
      *
@@ -134,11 +133,39 @@ class Validate extends ValidateBase
                 call_user_func_array($this->saveFileHandle, $this->handleData);
             }
         }
+        // 数据库sql注入
+        if ($this->addslashes === true) {
+            $this->isAddslashes();
+        }
+        // htmlXSS劫持
+        if ($this->htmlspecialchars === true) {
+            $this->isHtmlspecialchars();
+        }
         //后置处理
         if ($this->defensiveHandle instanceof \Closure) {
             $this->handleData = call_user_func_array($this->defensiveHandle, [$this->handleData]);
         }
         return true;
+    }
+
+    /**
+     * 对输入参数进行转义，防止sql注入
+     */
+    protected function isAddslashes()
+    {
+        if ($this->addslashes && !get_magic_quotes_gpc() && is_string($this->handleData)) {
+            $this->handleData = addslashes($this->handleData);
+        }
+    }
+
+    /**
+     * 对输入参数进行html XSS 攻击过滤
+     */
+    protected function isHtmlspecialchars()
+    {
+        if ($this->htmlspecialchars && is_string($this->handleData)) {
+            $this->handleData = htmlspecialchars($this->handleData);
+        }
     }
 
     /**
